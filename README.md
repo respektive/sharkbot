@@ -1,0 +1,2 @@
+# sharkbot
+ Personal Discord bot 
