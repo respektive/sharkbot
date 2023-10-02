@@ -23,5 +23,8 @@
     "dotenv": "^16.0.1",
     "js-levenshtein": "^1.1.6",
     "openai": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.2"
   }
 }
