@@ -38,6 +38,8 @@ async function gelbooru(channel, tags) {
 }
 
 async function konachan(tags) {
+    if(!channel.nsfw)
+        tags.push("-rating:explicit", "-rating:questionable")
     let tagString = tags.join(', ')
     let tagArray = tags.concat(Array.from(blacklist).map(i=>'-'+i))
 
