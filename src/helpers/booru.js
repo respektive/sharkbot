@@ -37,7 +37,7 @@ async function gelbooru(channel, tags) {
     return { embed }
 }
 
-async function konachan(tags) {
+async function konachan(channel, tags) {
     if(!channel.nsfw)
         tags.push("-rating:explicit", "-rating:questionable")
     let tagString = tags.join(', ')

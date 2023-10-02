@@ -24,7 +24,7 @@ module.exports = {
         if (booru === "gelbooru") {
             result = await gelbooru(interaction.channel, tagsArray)
         } else if (booru === "konachan") {
-            result = await konachan(tagsArray)
+            result = await konachan(interaction.channel, tagsArray)
         } else if (booru === "derpibooru") {
             result = await derpi(tagsArray)
         } else {
