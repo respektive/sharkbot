@@ -52,9 +52,6 @@ async function konachan(channel, tags) {
     const post = posts[0]
     let postUrl = post.postView
 
-    if(tags.length > 0)
-        postUrl += '&tags=' + tags.join('+')
-
     const embed = new MessageEmbed()
     .setColor("#337ab7")
     .setTitle("Konachan: " + post.id)
