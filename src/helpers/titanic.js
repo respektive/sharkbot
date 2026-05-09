@@ -18,8 +18,8 @@ async function getUser(user_id) {
             .setAuthor({
                 name: `${data.name} – ${data.stats[0].pp}pp (#${data.rankings[0].performance.global}) (${data.country}#${data.rankings[0].performance.country})`,
                 iconURL: `https://osu.titanic.sh/a/${data.id}`,
+                url: `https://titanic.sh/u/${data.id}`,
             })
-            .setURL(`https://titanic.sh/u/${data.id}`)
             .setThumbnail(`https://osu.titanic.sh/a/${data.id}`)
             .addFields(
                 {
