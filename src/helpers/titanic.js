@@ -1,4 +1,29 @@
+const { DatabaseSync } = require("node:sqlite");
 const { MessageEmbed } = require("discord.js");
+
+const db = new DatabaseSync("titanic.db");
+
+async function initDatabase() {
+    await db.exec(`
+        CREATE TABLE IF NOT EXISTS users (
+            discord_id TEXT PRIMARY KEY,
+            titanic_id TEXT NOT NULL
+        )
+    `);
+}
+
+async function setDiscordID(discord_id, titanic_id) {
+    const insert = db.prepare(
+        "INSERT INTO users (discord_id, titanic_id) VALUES (?, ?) ON CONFLICT(discord_id) DO UPDATE SET titanic_id=excluded.titanic_id",
+    );
+    await insert.run(discord_id, titanic_id);
+}
+
+async function getUserID(discord_id) {
+    const select = db.prepare("SELECT titanic_id FROM users WHERE discord_id = ?");
+    const row = await select.get(discord_id);
+    return row ? row.titanic_id : null;
+}
 
 async function getUser(user_id) {
     const url = `https://api.titanic.sh/users/${user_id}`;
@@ -52,6 +77,10 @@ async function getUser(user_id) {
     }
 }
 
+initDatabase();
+
 module.exports = {
     getUser,
+    setDiscordID,
+    getUserID,
 };

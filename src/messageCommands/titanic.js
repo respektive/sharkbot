@@ -1,15 +1,40 @@
-const { getUser } = require("../helpers/titanic");
+const { getUser, getUserID } = require("../helpers/titanic");
 
 module.exports = {
     name: "titanic",
     aliases: [],
     async execute(message, args) {
-        if (args.length === 0 || isNaN(args[0])) {
-            message.channel.send("Please provide a valid user ID.");
+        let userId;
+        if (args.length === 0) {
+            try {
+                userId = await getUserID(message.author.id);
+            } catch (error) {
+                console.error("Error fetching titanic user id:", error);
+                message.channel.send("Failed to fetch titanic user id. Please set it using `titanic-set <user_id>`.");
+                return;
+            }
+        } else if (isNaN(args[0]) && args[0].startsWith("<@") && args[0].endsWith(">")) {
+            const discordId = args[0].slice(2, -1);
+            try {
+                userId = await getUserID(discordId);
+                if (!userId) {
+                    message.channel.send("The mentioned user has not set their titanic id.");
+                    return;
+                }
+            } catch (error) {
+                console.error("Error fetching titanic user id:", error);
+                message.channel.send("Failed to fetch titanic user id.");
+                return;
+            }
+        } else {
+            userId = args[0];
+        }
+
+        if (!userId) {
+            message.channel.send("Please provide a valid user id or mention a user.");
             return;
         }
 
-        const userId = args[0];
         const { embed, errorMessage } = await getUser(userId);
 
         if (errorMessage) {
